@@ -74,4 +74,87 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    if (b === 0) {
+        throw new Error("Cannot divide by zero.");
+    }
+    return a / b;
+}
+
+function modulus(a, b) {
+    if (b === 0) {
+        throw new Error("Cannot divide by zero.");
+    }
+    return a % b;
+}
+
+function exponent(a, b) {
+    return a ** b;
+}
+
+function getTwoNumbers() {
+    const a = readlineSync.questionFloat("Enter first number : ");
+    const b = readlineSync.questionFloat("Enter second number: ");
+    return [a, b];
+}
+
+function printMenu() {
+    console.log("\n============================");
+    console.log("     SIMPLE CALCULATOR");
+    console.log("============================");
+    console.log("1. Addition");
+    console.log("2. Subtraction");
+    console.log("3. Multiplication");
+    console.log("4. Division");
+    console.log("5. Modulus");
+    console.log("6. Exponentiation");
+    console.log("7. Quit");
+}
+
+function main() {
+    const operations = {
+        "1": ["+", add],
+        "2": ["-", subtract],
+        "3": ["*", multiply],
+        "4": ["/", divide],
+        "5": ["%", modulus],
+        "6": ["**", exponent],
+    };
+
+    while (true) {
+        printMenu();
+        const choice = readlineSync.question("Select an operation (1-7): ");
+
+        if (choice === "7") {
+            console.log("Goodbye!");
+            break;
+        } else if (choice in operations) {
+            const [symbol, func] = operations[choice];
+            const [a, b] = getTwoNumbers();
+            try {
+                const result = func(a, b);
+                console.log(`Result: ${a} ${symbol} ${b} = ${result.toFixed(2)}`);
+            } catch (e) {
+                console.log(`Error: ${e.message}`);
+            }
+        } else {
+            console.log("Error: Please enter a number between 1 and 7.");
+        }
+    }
+}
+
+main();
